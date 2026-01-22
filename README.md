@@ -1,68 +1,68 @@
-# Docker Fundamentals - Practice Examples
+# Docker Fundamentals - Praxis-Beispiele
 
-Hands-on examples from the Docker Fundamentals presentation.
+Hands-on Beispiele aus der Docker Fundamentals Präsentation.
 
-## Prerequisites
+## Voraussetzungen
 
-- Docker Desktop installed and running
-- Terminal/Command Prompt
+- Docker Desktop installiert und gestartet
+- Terminal/Kommandozeile
 
-## Examples
+## Beispiele
 
 ### 01-flask-hello
-**Your first Dockerfile** - Simple Flask "Hello World" app.
+**Dein erstes Dockerfile** - Einfache Flask "Hello World" App.
 
 ```bash
 cd 01-flask-hello
 docker build -t flask-hello .
 docker run -p 5000:5000 flask-hello
-# Visit: http://localhost:5000
+# Öffne: http://localhost:5000
 ```
 
 ---
 
 ### 02-fastapi-backend
-**Backend API** - FastAPI with health endpoint and auto-docs.
+**Backend API** - FastAPI mit Health-Endpunkt und Auto-Dokumentation.
 
 ```bash
 cd 02-fastapi-backend
 docker build -t fastapi-backend .
 docker run -p 8000:8000 fastapi-backend
-# Visit: http://localhost:8000
+# Öffne: http://localhost:8000
 # API Docs: http://localhost:8000/docs
 ```
 
 ---
 
 ### 03-frontend-multistage
-**Multi-Stage Build** - Node.js build → nginx production image.
+**Multi-Stage Build** - Node.js Build → nginx Production-Image.
 
 ```bash
 cd 03-frontend-multistage
 docker build -t frontend-demo .
 docker run -p 8080:80 frontend-demo
-# Visit: http://localhost:8080
+# Öffne: http://localhost:8080
 
-# Check image size (should be ~25MB, not 1GB!)
+# Image-Größe prüfen (sollte ~25MB sein, nicht 1GB!)
 docker images frontend-demo
 ```
 
 ---
 
 ### 04-compose-postgres
-**Docker Compose Basics** - PostgreSQL with persistent volume.
+**Docker Compose Grundlagen** - PostgreSQL mit persistentem Volume.
 
 ```bash
 cd 04-compose-postgres
 docker compose up -d
-# Connect: docker compose exec db psql -U demo -d myapp
+# Verbinden: docker compose exec db psql -U demo -d myapp
 docker compose down
 ```
 
 ---
 
 ### 05-fullstack-compose
-**Full-Stack Application** - Frontend + Backend + Database.
+**Full-Stack Anwendung** - Frontend + Backend + Datenbank.
 
 ```bash
 cd 05-fullstack-compose
@@ -75,29 +75,38 @@ docker compose down -v
 
 ---
 
-## Quick Test All Examples
+## Alle Beispiele testen
 
 ```bash
-# Test each build (without running)
+# Jeden Build testen (ohne zu starten)
 cd 01-flask-hello && docker build -t test-flask . && cd ..
 cd 02-fastapi-backend && docker build -t test-fastapi . && cd ..
 cd 03-frontend-multistage && docker build -t test-frontend . && cd ..
 cd 04-compose-postgres && docker compose config && cd ..
 cd 05-fullstack-compose && docker compose config && cd ..
 
-echo "✅ All examples validated!"
+echo "✅ Alle Beispiele validiert!"
 ```
 
-## Cleanup
+## Aufräumen
 
 ```bash
-# Remove test images
+# Test-Images entfernen
 docker rmi flask-hello fastapi-backend frontend-demo test-flask test-fastapi test-frontend 2>/dev/null
 
-# Remove compose volumes
+# Compose Volumes entfernen
 cd 04-compose-postgres && docker compose down -v && cd ..
 cd 05-fullstack-compose && docker compose down -v && cd ..
 
-# Prune unused resources
+# Ungenutzte Ressourcen aufräumen
 docker system prune -f
 ```
+
+## Kurs-Materialien
+
+Diese Beispiele gehören zum **Docker Fundamentals** Kurs.
+- Teil 1: Docker Fundamentals (dieses Repo)
+- Teil 2: Kubernetes Fundamentals
+- Teil 3: Kubernetes & Helm
+
+Präsentationen verfügbar unter: [neurawork.de](https://neurawork.de)

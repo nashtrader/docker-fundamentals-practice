@@ -1,60 +1,60 @@
 # Full-Stack Docker Compose Demo
 
-Complete three-tier application with Docker Compose.
+Komplette Drei-Schichten-Anwendung mit Docker Compose.
 
-## Architecture
+## Architektur
 
 ```
-Browser → Frontend (nginx:3000) → Backend (FastAPI:8000) → Database (PostgreSQL:5432)
+Browser → Frontend (nginx:3000) → Backend (FastAPI:8000) → Datenbank (PostgreSQL:5432)
 ```
 
-## Quick Start
+## Schnellstart
 
 ```bash
-# Build and start all services
+# Alle Services bauen und starten
 docker compose up -d --build
 
-# Check status
+# Status prüfen
 docker compose ps
 
-# View logs
+# Logs anzeigen
 docker compose logs -f
 ```
 
-## Access
+## Zugriff
 
 - **Frontend**: http://localhost:3000
 - **Backend API**: http://localhost:8000
-- **API Docs**: http://localhost:8000/docs
+- **API Dokumentation**: http://localhost:8000/docs
 
-## Test Endpoints
+## Endpunkte testen
 
 ```bash
-# Health check
+# Health Check
 curl http://localhost:8000/health
 
-# Get items
+# Items abrufen
 curl http://localhost:8000/api/items
 
-# Get info
+# Info abrufen
 curl http://localhost:8000/api/info
 ```
 
-## Stop
+## Stoppen
 
 ```bash
-# Stop containers (keep data)
+# Container stoppen (Daten behalten)
 docker compose down
 
-# Stop and delete data
+# Container stoppen und Daten löschen
 docker compose down -v
 ```
 
-## What You'll Learn
+## Was du lernst
 
-1. **Multi-container orchestration** with Docker Compose
-2. **Service dependencies** using `depends_on`
-3. **Health checks** for startup ordering
-4. **Internal networking** - containers talk by service name
-5. **Volume persistence** for database
-6. **Multi-stage builds** for small frontend images
+1. **Multi-Container Orchestrierung** mit Docker Compose
+2. **Service-Abhängigkeiten** mit `depends_on`
+3. **Health Checks** für die Startreihenfolge
+4. **Internes Networking** - Container kommunizieren über Service-Namen
+5. **Volume-Persistenz** für die Datenbank
+6. **Multi-Stage Builds** für kleine Frontend-Images
