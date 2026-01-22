@@ -1,0 +1,71 @@
+# docker-compose.yml - Full-Stack Application
+#
+# Architecture:
+#   Browser → Frontend (nginx:80) → Backend (FastAPI:8000) → Database (PostgreSQL:5432)
+#
+# Usage:
+#   docker compose up -d --build    # Build and start
+#   docker compose logs -f          # Follow all logs
+#   docker compose ps               # Show status
+#   docker compose down             # Stop all
+
+services:
+  # ─────────────────────────────────────────────────────────────
+  # Frontend - nginx serving static files
+  # ─────────────────────────────────────────────────────────────
+  frontend:
+    build: ./frontend
+    container_name: fullstack-frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+    networks:
+      - app-network
+
+  # ─────────────────────────────────────────────────────────────
+  # Backend - FastAPI with database connection
+  # ─────────────────────────────────────────────────────────────
+  backend:
+    build: ./backend
+    container_name: fullstack-backend
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgresql://appuser:apppass@db:5432/appdb
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - app-network
+
+  # ─────────────────────────────────────────────────────────────
+  # Database - PostgreSQL with persistent storage
+  # ─────────────────────────────────────────────────────────────
+  db:
+    image: postgres:16-alpine
+    container_name: fullstack-db
+    environment:
+      POSTGRES_USER: appuser
+      POSTGRES_PASSWORD: apppass
+      POSTGRES_DB: appdb
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U appuser -d appdb"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - app-network
+
+# ─────────────────────────────────────────────────────────────
+# Volumes and Networks
+# ─────────────────────────────────────────────────────────────
+volumes:
+  pgdata:
+    name: fullstack-pgdata
+
+networks:
+  app-network:
+    name: fullstack-network

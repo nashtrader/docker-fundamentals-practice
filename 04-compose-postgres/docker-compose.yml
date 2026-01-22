@@ -1,0 +1,31 @@
+# docker-compose.yml - Simple PostgreSQL with Volume
+#
+# Usage:
+#   docker compose up -d      # Start in background
+#   docker compose logs -f    # Follow logs
+#   docker compose down       # Stop (data persists!)
+#   docker compose down -v    # Stop AND delete data
+
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: demo-postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: demo
+      POSTGRES_PASSWORD: secret123
+      POSTGRES_DB: myapp
+    volumes:
+      # Named volume - data survives container restarts!
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U demo -d myapp"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+# Named volumes are managed by Docker
+volumes:
+  pgdata:
+    name: demo-pgdata

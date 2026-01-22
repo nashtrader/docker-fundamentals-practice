@@ -1,0 +1,9 @@
+{
+  "name": "docker-frontend-demo",
+  "version": "1.0.0",
+  "description": "Multi-stage Docker build demo",
+  "scripts": {
+    "build": "node build.js"
+  },
+  "devDependencies": {}
+}
